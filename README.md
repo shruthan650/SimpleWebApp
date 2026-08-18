@@ -8,7 +8,6 @@ A simple RESTful web application built with **Java** and **Spring Boot**. The pr
 - Spring Boot 4.1.0
 - Spring Web MVC
 - Maven
-- Lombok
 - Spring Boot DevTools
 
 ## Project Structure
