@@ -1,56 +1,47 @@
 package com.shruthan.simpleWebApp.service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.shruthan.simpleWebApp.model.Product;
+import com.shruthan.simpleWebApp.repository.ProductRepo;
 
 @Component
 public class ProductService {
+	
+	@Autowired
+	ProductRepo repo;
 
-	private final Product product;
-	List<Product> products = new ArrayList<Product>(Arrays.asList(new Product(101, "IPhone", 50000),
-			new Product(102, "Samsung", 100000), new Product(103, "Mic", 90000)));
+//	private final Product product;
+//	List<Product> products = new ArrayList<Product>(Arrays.asList(new Product(101, "IPhone", 50000),
+//			new Product(102, "Samsung", 100000), new Product(103, "Mic", 90000)));
 
-	ProductService(Product product) {
-		this.product = product;
+	ProductService() {
+//		this.product = product;
 	}
 
 	public List<Product> getAllProducts() {
-		return products;
+		return repo.findAll();
 	}
 
-	public Product getProductById(int prodId) {
+	public Product getProductById(Integer prodId) {
 
-		return products.stream().filter(p -> p.getProductId() == prodId).findFirst()
-				.orElse(new Product(100, "No item found", 0));
+		return  repo.findById(prodId).orElse(new Product());
 	}
 
 	public void addProduct(Product prod) {
-		products.add(prod);
+		repo.save(prod);
 	}
 
 	public void updateProduct(Product prod) {
 		
-		int index = 0;
-		for (int i = 0; i < products.size(); i++) {
-			if (products.get(i).getProductId() == prod.getProductId()) {
-				index = i;
-			}
-		}
-		products.set(index, prod);
+		repo.save(prod);
 	}
 
-	public void deleteProduct(Product prod) {
+	public void deleteProduct(Integer prodId) {
 		
-	    for (int i = 0; i < products.size(); i++) {
-			if (products.get(i).getProductId() == prod.getProductId()) {
-				products.remove(i);
-			}
-		}
+	    repo.deleteById(prodId);
 	}
 }
